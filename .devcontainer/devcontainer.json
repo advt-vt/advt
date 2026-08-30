@@ -1,0 +1,33 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/universal
+{
+	"name": "ADVT Devlopment Container v1.0.0",
+	"privileged": true,
+    "remoteUser": "vscode",
+    "containerUser": "vscode",
+	"build": { "dockerfile": "Dockerfile" },
+
+	"customizations": {
+		"vscode": {
+            "extensions": [
+                "bierner.docs-view",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy",
+                "rodolphebarbanneau.python-docstring-highlighter",
+                "yzhang.markdown-all-in-one",
+                "davidanson.vscode-markdownlint",
+				"github.vscode-github-actions"
+			]
+		}
+	}
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "uname -a",
+}
