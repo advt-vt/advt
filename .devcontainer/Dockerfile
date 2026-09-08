@@ -2,13 +2,20 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 USER root
 
-# The image we are using ships with a non-root user named vscode
-# We can change this if needed (make sure to also change devcontainer.json to match)
-ARG USERNAME=vscode
+ARG USERNAME=advt_user
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
 ENV SHELL=/bin/bash
 
-RUN apt-get update \
+# Rename vscode user (comes with the ubuntu image) to advt_user
+RUN groupmod -n $USERNAME vscode \
+    && usermod -l $USERNAME -d /home/$USERNAME -m vscode
+
+RUN groupmod --gid $USER_GID $USERNAME \
+    && usermod --uid $USER_UID --gid $USER_GID $USERNAME \
+    && chown -R $USER_UID:$USER_GID /home/$USERNAME \
+    && apt-get update \
     && apt-get install -y \
     sudo \
     curl \
