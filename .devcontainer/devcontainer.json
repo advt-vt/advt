@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
-	"name": "ADVT Devlopment Container v1.0.1",
+	"name": "ADVT Devlopment Container v1.0.2",
 	"privileged": true,
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
@@ -10,6 +10,7 @@
 	"customizations": {
 		"vscode": {
             "extensions": [
+				"ms-azuretools.vscode-containers",
                 "bierner.docs-view",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
