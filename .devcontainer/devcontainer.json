@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
-	"name": "ADVT Devlopment Container v1.0.2",
+	"name": "ADVT Devlopment Container v1.0.3",
 	"privileged": true,
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
@@ -18,7 +18,8 @@
                 "rodolphebarbanneau.python-docstring-highlighter",
                 "yzhang.markdown-all-in-one",
                 "davidanson.vscode-markdownlint",
-				"github.vscode-github-actions"
+				"github.vscode-github-actions",
+				"streetsidesoftware.code-spell-checker"
 			]
 		}
 	}
