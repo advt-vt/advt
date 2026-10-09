@@ -1,0 +1,6 @@
+these are really rough notes for setting up a quick headless gazebo simulator
+just so then we can set up mavsdk real quick
+
+FOR NOW
+let's set up a nested docker container in order to implement
+the headless PX4 SITL Gazebo thingy
