@@ -25,6 +25,12 @@ RUN groupmod --gid $USER_GID $USERNAME \
     git \
     python3-pip \
     python3-venv \
+    ca-certificates \
+    gnupg \
+    gosu \
+    lsb-release \
+    software-properties-common \
+    wget \
     && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 

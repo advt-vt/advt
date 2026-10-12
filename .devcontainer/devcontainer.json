@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
-	"name": "ADVT Devlopment Container v1.0.3",
+	"name": "ADVT Devlopment Container v1.0.4",
 	"privileged": true,
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
@@ -24,7 +24,28 @@
                 "yzhang.markdown-all-in-one",
                 "davidanson.vscode-markdownlint",
 				"github.vscode-github-actions",
-				"streetsidesoftware.code-spell-checker"
+				"streetsidesoftware.code-spell-checker",
+				// PX4 extensions vvv
+				"chiehyu.vscode-astyle",
+				"dan-c-underwood.arm",
+				"editorconfig.editorconfig",
+				"fredericbonnet.cmake-test-adapter",
+				"github.vscode-pull-request-github",
+				"marus25.cortex-debug",
+				"ms-azuretools.vscode-docker",
+				"ms-iot.vscode-ros",
+				"ms-python.python",
+				"ms-vscode.cmake-tools",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"redhat.vscode-yaml",
+				"streetsidesoftware.code-spell-checker",
+				"twxs.cmake",
+				"uavcan.dsdl",
+				"wholroyd.jinja",
+				"zixuanwang.linkerscript",
+				"ms-vscode.makefile-tools"
+				// PX4 extensions ^^^
 			]
 		}
 	}
