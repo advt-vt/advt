@@ -5,8 +5,11 @@ USER root
 ARG USERNAME=advt_user
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG ADVT_PX4_INSTALL=false
 
 ENV SHELL=/bin/bash
+# Export PX4_install to env vars for later use in the dev container
+ENV ADVT_PX4_INSTALL=$ADVT_PX4_INSTALL
 
 # Rename vscode user (comes with the ubuntu image) to advt_user
 RUN groupmod -n $USERNAME vscode \

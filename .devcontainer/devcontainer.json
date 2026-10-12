@@ -5,7 +5,12 @@
 	"privileged": true,
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
-	"build": { "dockerfile": "Dockerfile" },
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"ADVT_PX4_INSTALL": "${localEnv:ADVT_PX4_INSTALL:false}"
+		}
+	},
 
 	"customizations": {
 		"vscode": {
@@ -29,7 +34,4 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
 }
