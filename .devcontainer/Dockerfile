@@ -5,8 +5,11 @@ USER root
 ARG USERNAME=advt_user
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG ADVT_PX4_INSTALL=false
 
 ENV SHELL=/bin/bash
+# Export PX4_install to env vars for later use in the dev container
+ENV ADVT_PX4_INSTALL=$ADVT_PX4_INSTALL
 
 # Rename vscode user (comes with the ubuntu image) to advt_user
 RUN groupmod -n $USERNAME vscode \
@@ -22,6 +25,12 @@ RUN groupmod --gid $USER_GID $USERNAME \
     git \
     python3-pip \
     python3-venv \
+    ca-certificates \
+    gnupg \
+    gosu \
+    lsb-release \
+    software-properties-common \
+    wget \
     && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
