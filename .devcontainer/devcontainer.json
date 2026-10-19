@@ -2,6 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
 	"name": "ADVT Devlopment Container v1.0.4",
+	"postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
 	"privileged": true,
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
