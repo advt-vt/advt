@@ -31,6 +31,7 @@ RUN groupmod --gid $USER_GID $USERNAME \
     lsb-release \
     software-properties-common \
     wget \
+    libopencv-dev \
     && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
