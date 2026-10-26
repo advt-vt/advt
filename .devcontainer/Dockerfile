@@ -32,6 +32,9 @@ RUN groupmod --gid $USER_GID $USERNAME \
     software-properties-common \
     wget \
     libopencv-dev \
+    libxcb-cursor0 \
+    libgl1-mesa-dri \
+    mesa-utils \
     && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 

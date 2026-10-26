@@ -2,6 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
 	"name": "ADVT Devlopment Container v1.0.4",
+	"initializeCreateCommand": "bash .devcontainer/initializeCreateCommand.sh",
 	"postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
 	"privileged": true,
     "remoteUser": "advt_user",
@@ -49,7 +50,10 @@
 				// PX4 extensions ^^^
 			]
 		}
-	}
+	},
+	"containerEnv": { "DISPLAY": "${localEnv:DISPLAY}" },
+	"mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"],
+	"runArgs": ["--device=/dev/dri"]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
