@@ -4,5 +4,5 @@
 
 if [[ "$ADVT_PX4_INSTALL" == "true" ]]; then
     bash ./PX4-Autopilot/Tools/setup/ubuntu.sh
-    rm ./core.*
+    rm ./core.* 2>/dev/null
 fi
