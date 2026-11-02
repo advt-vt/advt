@@ -2,8 +2,8 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
 	"name": "ADVT Devlopment Container v1.0.4",
-	"initializeCommand": "bash ../../initializeCreateCommand.sh",
-	"postCreateCommand": "bash ../../postCreateCommand.sh",
+	"initializeCommand": "bash ~/advt/.devcontainer/initializeCreateCommand.sh",
+	"postCreateCommand": "bash ~/advt/.devcontainer/postCreateCommand.sh",
 	"privileged": true,
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
