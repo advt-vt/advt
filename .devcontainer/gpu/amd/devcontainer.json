@@ -1,0 +1,65 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/universal
+{
+	"name": "ADVT Devlopment Container v1.0.4",
+	"initializeCommand": "bash .devcontainer/initializeCreateCommand.sh",
+	"postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+	"privileged": true,
+    "remoteUser": "advt_user",
+    "containerUser": "advt_user",
+	"build": {
+		"context": "../..",
+		"dockerfile": "../../Dockerfile",
+		"args": {
+			"ADVT_PX4_INSTALL": "${localEnv:ADVT_PX4_INSTALL:false}"
+		}
+	},
+
+	"customizations": {
+		"vscode": {
+            "extensions": [
+				"ms-azuretools.vscode-containers",
+				"ms-vscode-remote.remote-containers",
+                "bierner.docs-view",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy",
+                "rodolphebarbanneau.python-docstring-highlighter",
+                "yzhang.markdown-all-in-one",
+                "davidanson.vscode-markdownlint",
+				"github.vscode-github-actions",
+				"streetsidesoftware.code-spell-checker",
+				// PX4 extensions vvv
+				"chiehyu.vscode-astyle",
+				"dan-c-underwood.arm",
+				"editorconfig.editorconfig",
+				"fredericbonnet.cmake-test-adapter",
+				"github.vscode-pull-request-github",
+				"marus25.cortex-debug",
+				"ms-azuretools.vscode-docker",
+				"ms-iot.vscode-ros",
+				"ms-python.python",
+				"ms-vscode.cmake-tools",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"redhat.vscode-yaml",
+				"streetsidesoftware.code-spell-checker",
+				"twxs.cmake",
+				"uavcan.dsdl",
+				"wholroyd.jinja",
+				"zixuanwang.linkerscript",
+				"ms-vscode.makefile-tools"
+				// PX4 extensions ^^^
+			]
+		}
+	},
+	"containerEnv": { "DISPLAY": "${localEnv:DISPLAY}" },
+	"mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"],
+	"runArgs": ["--device=/dev/dri, --device=/dev/kfd"]
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+}
