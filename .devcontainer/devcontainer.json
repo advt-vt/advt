@@ -1,8 +1,8 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/universal
 {
-	"name": "ADVT Devlopment Container v1.0.4",
-	"initializeCreateCommand": "bash .devcontainer/initializeCreateCommand.sh",
+	"name": "ADVT Devlopment Container v1.0.5",
+	"initializeCommand": "bash .devcontainer/initializeCommand.sh",
 	"postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
 	"privileged": true,
     "remoteUser": "advt_user",
