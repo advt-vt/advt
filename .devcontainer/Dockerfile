@@ -1,4 +1,3 @@
-# specifically request for ubuntu-24.04. default base:ubuntu requests for latest 26.04
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
 USER root
