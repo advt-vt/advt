@@ -51,7 +51,22 @@
 				// PX4 extensions ^^^
 			]
 		}
-	}
+	},
+
+	// GPU Forwarding stuff
+	"mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"NVIDIA_DRIVER_CAPABILITIES": "${localEnv:NVIDIA}",
+		"GALLIUM_DRIVER": "${localEnv:GALLIUM_DRIVER}",
+		"MESA_D3D12_DEFAULT_ADAPTER_NAME": "${localEnv:GPU_TYPE}"
+	},
+	"runArgs": [
+		"${localEnv:GPU}",
+		"${localEnv:GPU_MOUNT}",
+		"${localEnv:GPU_EXTRA}",
+		"${localEnv:GPU_LIBS}"
+	]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
