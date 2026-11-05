@@ -62,4 +62,4 @@ else
 fi
 
 # opens vscode and runs the container
-cd ~/advt && git pull && devcontainer up --workspace-folder . --remove-existing-container && code .
+cd "$(dirname $0)" && git pull && devcontainer up --workspace-folder . --remove-existing-container && code .
