@@ -7,6 +7,9 @@ ARG USERNAME=advt_user
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
+# Stores what architecture we are on (x84 or arm64)
+ARG TARGETARCH
+
 ENV SHELL=/bin/bash
 
 # Rename vscode user (comes with the ubuntu image) to advt_user
@@ -95,7 +98,8 @@ RUN apt-get update \
     util-linux \
     vim-common \
     wget \
-    zip
+    zip \
+    && rm -rf /var/lib/apt/lists/*
 
 # Add user to sudoers group
 RUN echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
@@ -109,11 +113,20 @@ RUN wget -q -P /tmp https://github.com/espressif/crosstool-NG/releases/download/
     && echo 'export PATH=$PATH:/opt/xtensa-esp-elf/bin/' >> /home/$USERNAME/.bashrc \
     && usermod -aG dialout $USERNAME
 
+# install Nuttx packages for Arm64
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        apt-get install -y --no-install-recommends \
+        g++-aarch64-linux-gnu \
+        g++-arm-linux-gnueabihf \
+        && rm -rf /var/lib/apt/lists/* \
+    fi
+
 # gazebo binary install
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
     && apt-get update \
-    && apt-get install -y gz-jetty
+    && apt-get install -y gz-jetty \
+    && rm -rf /var/lib/apt/lists/*
 
 USER $USERNAME
 
