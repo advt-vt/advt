@@ -8,10 +8,7 @@
     "remoteUser": "advt_user",
     "containerUser": "advt_user",
 	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"ADVT_PX4_INSTALL": "${localEnv:ADVT_PX4_INSTALL:false}"
-		}
+		"dockerfile": "Dockerfile"
 	},
 
 	"customizations": {

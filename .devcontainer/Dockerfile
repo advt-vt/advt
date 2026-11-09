@@ -6,38 +6,108 @@ USER root
 ARG USERNAME=advt_user
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-ARG ADVT_PX4_INSTALL=false
 
 ENV SHELL=/bin/bash
-# Export PX4_install to env vars for later use in the dev container
-ENV ADVT_PX4_INSTALL=$ADVT_PX4_INSTALL
 
 # Rename vscode user (comes with the ubuntu image) to advt_user
 RUN groupmod -n $USERNAME vscode \
     && usermod -l $USERNAME -d /home/$USERNAME -m vscode
 
+# make sure we own and can edit all the files
 RUN groupmod --gid $USER_GID $USERNAME \
     && usermod --uid $USER_UID --gid $USER_GID $USERNAME \
-    && chown -R $USER_UID:$USER_GID /home/$USERNAME \
-    && apt-get update \
-    && apt-get install -y \
-    sudo \
-    curl \
-    git \
-    python3-pip \
-    python3-venv \
+    && chown -R $USER_UID:$USER_GID /home/$USERNAME
+
+# install required packages
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    astyle \
+    automake \
+    binutils-dev \
+    bison \
+    build-essential \
     ca-certificates \
+    ccache \
+    clang \
+    clang-format \
+    clang-tidy \
+    cmake \
+    cppcheck \
+    curl \
+    esptool \
+    file \
+    flex \
+    g++ \
+    g++-multilib \
+    gcc \
+    gcc-arm-none-eabi \
+    gcc-multilib \
+    gdb \
+    gdb-multiarch \
+    genromfs \
+    gettext \
+    git \
     gnupg \
     gosu \
-    lsb-release \
-    software-properties-common \
-    wget \
-    libopencv-dev \
-    libxcb-cursor0 \
+    gperf \
+    kconfig-frontends \
+    lcov \
+    libelf-dev \
+    libexpat-dev \
     libgl1-mesa-dri \
+    libgmp-dev \
+    libisl-dev \
+    libmpc-dev \
+    libmpfr-dev \
+    libncurses-dev \
+    libncurses6 \
+    libncursesw6 \
+    libnewlib-arm-none-eabi \
+    libopencv-dev \
+    libssl-dev \
+    libstdc++-arm-none-eabi-newlib \
+    libtool \
+    libunwind-dev \
+    libxcb-cursor0 \
+    libxml2-dev \
+    libxml2-utils \
+    lld \
+    lldb \
+    lsb-release \
+    make \
     mesa-utils \
-    && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+    ninja-build \
+    pkg-config \
+    python3 \
+    python3-dev \
+    python3-pip \
+    python3-setuptools \
+    python3-venv \
+    python3-wheel \
+    rsync \
+    screen \
+    shellcheck \
+    software-properties-common \
+    sudo \
+    texinfo \
+    u-boot-tools \
+    unzip \
+    util-linux \
+    vim-common \
+    wget \
+    zip
+
+# Add user to sudoers group
+RUN echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Fetch Xtensa compilers for Nuttx
+ARG XTENSA_FILE_NAME=xtensa-esp-elf-13.2.0_20240530-x86_64-linux-gnu.tar.xz
+RUN wget -q -P /tmp https://github.com/espressif/crosstool-NG/releases/download/esp-13.2.0_20240530/$XTENSA_FILE_NAME \
+    && tar -xf /tmp/$XTENSA_FILE_NAME -C /opt \
+    && rm $DIR/$XTENSA_FILE_NAME \
+    && echo 'export PATH=$PATH:/opt/xtensa-esp-elf/bin/' >> /home/$USER/.bashrc \
+    && usermod -aG dialout $USER
 
 # gazebo binary install
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
