@@ -51,19 +51,53 @@
 	},
 
 	// GPU Forwarding stuff
-	"mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"],
-	"containerEnv": {
+	"mounts": [
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+		"source=/usr/lib/wsl/lib,target=/usr/lib/wsl/lib,type=bind,readonly",			//pray this works
+		"source=/usr/lib/wsl/drivers,target=/usr/lib/wsl/drivers,type=bind,readonly"
+	],
+
+	"containerEnv": {	
 		"DISPLAY": "${localEnv:DISPLAY}",
-		"NVIDIA_DRIVER_CAPABILITIES": "${localEnv:NVIDIA}",
-		"GALLIUM_DRIVER": "${localEnv:GALLIUM_DRIVER}",
-		"MESA_D3D12_DEFAULT_ADAPTER_NAME": "${localEnv:GPU_TYPE}"
+		// "NVIDIA_DRIVER_CAPABILITIES": "${localEnv:NVIDIA}",
+		"GALLIUM_DRIVER": "d3d12",							//Drivers cannot be localEnv
+		"MESA_D3D12_DEFAULT_ADAPTER_NAME": "NVIDIA",		//
+		"LD_LIBRARY_PATH": "/usr/lib/wsl/lib"				//
 	},
 	"runArgs": [
-		"${localEnv:GPU}",
-		"${localEnv:GPU_MOUNT}",
-		"${localEnv:GPU_EXTRA}",
-		"${localEnv:GPU_LIBS}"
-	]
+               "--gpus", "all",			//will break on non-NVIDIA machines; need to figure out a way to auto-pick different installation args depending on machine
+               "--device", "/dev/dxg",	// ^^
+			// I don't think these work????
+            //    "--device", "/dev/dri/card0",
+            //    "--device", "/dev/dri/renderD128"
+// 			  extra flags to try and brute force the permissions
+// 
+            //    "--privileged"
+//
+// 			   "
+//				"--
+       ]
+
+// 	// OLD GPU Forwarding stuff TO DELETE ======================================
+// 	"mounts": ["source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"],
+// 	"containerEnv": {
+// 		"DISPLAY": "${localEnv:DISPLAY}",
+// 		"NVIDIA_DRIVER_CAPABILITIES": "${localEnv:NVIDIA}",
+// 		"GALLIUM_DRIVER": "${localEnv:GALLIUM_DRIVER}",
+// 		"MESA_D3D12_DEFAULT_ADAPTER_NAME": "${localEnv:GPU_TYPE}"
+// 	},
+// 	"runArgs": [
+//                "--gpus", "all",
+//                "--device", "/dev/dxg",
+//                "--device", "/dev/dri/card0",
+//                "--device", "/dev/dri/renderD128",
+// // 			  extra flags to try and brute force the permissions
+// // 
+//             //    "--privileged"
+// //
+// // 			   "
+// //				"--
+//        ]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
