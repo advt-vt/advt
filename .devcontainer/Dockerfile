@@ -105,9 +105,9 @@ RUN echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
 ARG XTENSA_FILE_NAME=xtensa-esp-elf-13.2.0_20240530-x86_64-linux-gnu.tar.xz
 RUN wget -q -P /tmp https://github.com/espressif/crosstool-NG/releases/download/esp-13.2.0_20240530/$XTENSA_FILE_NAME \
     && tar -xf /tmp/$XTENSA_FILE_NAME -C /opt \
-    && rm $DIR/$XTENSA_FILE_NAME \
-    && echo 'export PATH=$PATH:/opt/xtensa-esp-elf/bin/' >> /home/$USER/.bashrc \
-    && usermod -aG dialout $USER
+    && rm /tmp/$XTENSA_FILE_NAME \
+    && echo 'export PATH=$PATH:/opt/xtensa-esp-elf/bin/' >> /home/$USERNAME/.bashrc \
+    && usermod -aG dialout $USERNAME
 
 # gazebo binary install
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
