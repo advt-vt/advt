@@ -31,6 +31,7 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 
 elif grep -qi microsoft /proc/sys/kernel/osrelease; then
     # Using WSL2 forwarding
+    # TODO this doesn't work on AMD or Intel, i have no idea why
     echo "WSL2 Detected, forwarding GPU..."
     export DISPLAY=":0"
     # This works for AMD and for Intel GPUs, and is also needed for NVIDIA GPUs if using WSL
@@ -72,4 +73,4 @@ else
 fi
 
 # opens vscode and runs the container
-git pull && devcontainer up --workspace-folder . && code .
+devcontainer up --workspace-folder . && code .

@@ -57,12 +57,12 @@
 	},
 	"runArgs": [
 	    "${localEnv:GPU:--env=cpu=true}",
-	    "${localEnv:GPU_EXTRA}",
-	    "${localEnv:GPU_GROUP}",
-	    "${localEnv:GPU_MOUNT}",
-	    "${localEnv:GPU_LIBS}",
-	    "${localEnv:GPU_ENV}",
-	    "${localEnv:GPU_ENV2}",
-	    "${localEnv:X11_MOUNT}"
+	    "${localEnv:GPU_EXTRA:--env=stuff=none}",
+	    "${localEnv:GPU_GROUP:--env=stuff=none}",
+	    "${localEnv:GPU_MOUNT:--env=stuff=none}",
+	    "${localEnv:GPU_LIBS:--env=stuff=none}",
+	    "${localEnv:GPU_ENV:--env=stuff=none}",
+	    "${localEnv:GPU_ENV2:--env=stuff=none}",
+	    "${localEnv:X11_MOUNT:--env=stuff=none}"
 	]
 }
