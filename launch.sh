@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+cd "$(dirname $0)"
 # you need the devcontainer CLI installed.
 export PATH="$HOME/.devcontainers/bin:$PATH"
 if ! command -v devcontainer &>/dev/null; then
@@ -8,13 +8,21 @@ if ! command -v devcontainer &>/dev/null; then
     export PATH="$HOME/.devcontainers/bin:$PATH"
 fi
 
+export DISPLAY="${DISPLAY:-:0}"
+
 # just sets these to empty since not all of them need to be used
+# I can't make them actually just empty because it would explode
 # since the GPU ones are being passed in as Run Args they can't be empty
+NONE="--env=stuff=none"
 export NVIDIA=""
 export GPU="--env=cpu=true"
-export GPU_EXTRA="--env=stuff=none"
-export GPU_MOUNT="--env=stuff=none"
-export GPU_LIBS="--env=stuff=none"
+export GPU_EXTRA="$NONE"
+export GPU_GROUP="$NONE"
+export GPU_MOUNT="$NONE"
+export GPU_LIBS="$NONE"
+export GPU_ENV="$NONE"
+export GPU_ENV2="$NONE" 
+export X11_MOUNT="$NONE"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # MacOS setup
@@ -25,22 +33,19 @@ elif grep -qi microsoft /proc/sys/kernel/osrelease; then
     # Using WSL2 forwarding
     echo "WSL2 Detected, forwarding GPU..."
     export DISPLAY=":0"
-
     # This works for AMD and for Intel GPUs, and is also needed for NVIDIA GPUs if using WSL
+    export X11_MOUNT="--mount=type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix"
     export GPU="--device=/dev/dxg"
     export GPU_MOUNT="--mount=type=bind,source=/usr/lib/wsl,target=/usr/lib/wsl,readonly"
     export GPU_LIBS="--env=LD_LIBRARY_PATH=/usr/lib/wsl/lib"
-    export GALLIUM_DRIVER="d3d12"
+    export GPU_ENV="--env=GALLIUM_DRIVER=d3d12"
 
     if command -v nvidia-smi &>/dev/null; then
         echo "NVIDIA GPU detected on WSL, forwarding..."
-        if ! command -v nvidia-ctk >/dev/null 2>&1; then
-            echo "Installing the NVIDIA Docker Toolkit..."
-            .devcontainer/nvidia_install.sh
-        fi
-        
+
+        # you don't need the NVIDIA Toolkit if you're on windows
         export GPU_EXTRA="--gpus=all"
-        export NVIDIA="all"
+        export GPU_ENV2="--env=MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA"
     fi
 
 elif command -v nvidia-smi &>/dev/null; then
@@ -49,17 +54,22 @@ elif command -v nvidia-smi &>/dev/null; then
         echo "Installing the NVIDIA Docker Toolkit..."
         .devcontainer/nvidia_install.sh
     fi
+
     export GPU="--gpus=all"
-    export NVIDIA="all"
+    export X11_MOUNT="--mount=type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix"
+    export GPU_EXTRA="--env=NVIDIA_DRIVER_CAPABILITIES=all"
 
 elif [ -d /dev/dri ] && command -v apt &> /dev/null; then
     # AMD or Intel GPU on Linux
     echo "Native Linux install detected, forwarding GPU..."
     export GPU="--device=/dev/dri"
+    export GPU_EXTRA="--group-add=$(getent group video | cut -d: -f3)"
+    export GPU_GROUP="--group-add=$(getent group render | cut -d: -f3)"
 
 else
     echo "No GPU detected defaulting to CPU"
+    export X11_MOUNT="--mount=type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix"
 fi
 
 # opens vscode and runs the container
-cd "$(dirname $0)" && git pull && devcontainer up --workspace-folder . --remove-existing-container && code .
+git pull && devcontainer up --workspace-folder . && code .

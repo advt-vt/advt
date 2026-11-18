@@ -118,7 +118,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
         apt-get install -y --no-install-recommends \
         g++-aarch64-linux-gnu \
         g++-arm-linux-gnueabihf \
-        && rm -rf /var/lib/apt/lists/* \
+        && rm -rf /var/lib/apt/lists/*; \
     fi
 
 # gazebo binary install

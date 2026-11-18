@@ -51,20 +51,18 @@
 	},
 
 	// GPU Forwarding stuff
-	"mounts": [
-		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
-		"source=/usr/lib/wsl/lib,target=/usr/lib/wsl/lib,type=bind,readonly",
-		"source=/usr/lib/wsl/drivers,target=/usr/lib/wsl/drivers,type=bind,readonly"
-	],
-
-	"containerEnv": {	
-		"DISPLAY": "${localEnv:DISPLAY}",
-		"GALLIUM_DRIVER": "d3d12",							//Drivers cannot be localEnv
-		"MESA_D3D12_DEFAULT_ADAPTER_NAME": "NVIDIA",		//might we need?: "NVIDIA_DRIVER_CAPABILITIES": "${localEnv:NVIDIA}",
-		"LD_LIBRARY_PATH": "/usr/lib/wsl/lib"				// ^ probably not
+	"containerEnv": {
+    	"DISPLAY": "${localEnv:DISPLAY}",
+    	"QT_X11_NO_MITSHM": "1"
 	},
 	"runArgs": [
-               "--gpus", "all",			//will break on non-NVIDIA machines; need to figure out a way to auto-pick different installation args depending on machine
-               "--device", "/dev/dxg"	// 
-       ]
+	    "${localEnv:GPU:--env=cpu=true}",
+	    "${localEnv:GPU_EXTRA}",
+	    "${localEnv:GPU_GROUP}",
+	    "${localEnv:GPU_MOUNT}",
+	    "${localEnv:GPU_LIBS}",
+	    "${localEnv:GPU_ENV}",
+	    "${localEnv:GPU_ENV2}",
+	    "${localEnv:X11_MOUNT}"
+	]
 }
