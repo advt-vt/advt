@@ -1,0 +1,3 @@
+[submodule "mavsdk"]
+	path = mavsdk
+	url = git@github.com:mavlink/MAVSDK.git
