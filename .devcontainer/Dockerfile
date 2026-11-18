@@ -114,7 +114,7 @@ RUN if [ "$TARGETARCH" = "x86_64" ]; then \
         && tar -xf /tmp/$XTENSA_FILE_NAME -C /opt \
         && rm /tmp/$XTENSA_FILE_NAME \
         && echo 'export PATH=$PATH:/opt/xtensa-esp-elf/bin/' >> /home/$USERNAME/.bashrc \
-        && usermod -aG dialout $USERNAME \
+        && usermod -aG dialout $USERNAME; \
     fi
 
 # install Nuttx packages for Arm64
@@ -123,7 +123,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
         g++-aarch64-linux-gnu \
         g++-arm-linux-gnueabihf \
         && rm -rf /var/lib/apt/lists/* \
-        && usermod -aG dialout $USERNAME \
+        && usermod -aG dialout $USERNAME; \
     fi
 
 # gazebo binary install
