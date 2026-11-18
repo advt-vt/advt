@@ -36,14 +36,10 @@ RUN apt-get update \
     cmake \
     cppcheck \
     curl \
-    esptool \
     file \
     flex \
     g++ \
-    g++-multilib \
     gcc \
-    gcc-arm-none-eabi \
-    gcc-multilib \
     gdb \
     gdb-multiarch \
     genromfs \
@@ -103,6 +99,32 @@ RUN apt-get update \
 # Add user to sudoers group
 RUN echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# install Nuttx packages for x86
+ARG XTENSA_FILE_NAME=xtensa-esp-elf-13.2.0_20240530-x86_64-linux-gnu.tar.xz
+RUN if [ "$TARGETARCH" = "x86_64" ]; then \
+        apt-get install -y --no-install-recommends \
+        g++-multilib \
+        gcc-arm-none-eabi \
+        gcc-multilib \
+        esptool \
+        && rm -rf /var/lib/apt/lists/* \
+        # Fetch Xtensa compilers for Nuttx
+        && wget -q -P /tmp https://github.com/espressif/crosstool-NG/releases/download/esp-13.2.0_20240530/$XTENSA_FILE_NAME \
+        && tar -xf /tmp/$XTENSA_FILE_NAME -C /opt \
+        && rm /tmp/$XTENSA_FILE_NAME \
+        && echo 'export PATH=$PATH:/opt/xtensa-esp-elf/bin/' >> /home/$USERNAME/.bashrc \
+        && usermod -aG dialout $USERNAME \
+    fi
+
+# install Nuttx packages for Arm64
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        apt-get install -y --no-install-recommends \
+        g++-aarch64-linux-gnu \
+        g++-arm-linux-gnueabihf \
+        && rm -rf /var/lib/apt/lists/* \
+        && usermod -aG dialout $USERNAME \
+    fi
 
 # gazebo binary install
 RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
